@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بگاخیز | قدرت موشکی</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020203;
+            --bg-card: #0a0a0c;
+            --bg-elevated: #0e0e12;
+            --accent: #ff2a2a;
+            --accent-dim: #cc1a1a;
+            --accent-glow: rgba(255, 42, 42, 0.35);
+            --green: #00ff9d;
+            --text: #d0d0d8;
+            --text-muted: #6a6a78;
+            --border: rgba(255, 50, 50, 0.12);
+            --scanline: rgba(255, 255, 255, 0.015);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                var(--scanline) 2px,
+                var(--scanline) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.55;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.45;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #3a1a1a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(2, 2, 3, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse 90% 60% at 50% -10%, rgba(120, 0, 0, 0.25), transparent 55%),
+                radial-gradient(circle at 15% 80%, rgba(80, 0, 0, 0.15), transparent 40%),
+                #020203;
+            padding: 100px 5% 60px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, transparent 49.5%, rgba(255, 42, 42, 0.03) 50%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(255, 42, 42, 0.03) 50%, transparent 50.5%);
+            background-size: 80px 80px;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 42, 42, 0.12);
+            border: 1px solid rgba(255, 42, 42, 0.4);
+            color: var(--accent);
+            padding: 5px 16px;
+            border-radius: 2px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1.4rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.2rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(255, 42, 42, 0.3);
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto 2.2rem;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            border-radius: 2px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: #ff4d4d;
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 42, 42, 0.08);
+        }
+
+        .missile-deco {
+            position: absolute;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        .missile-deco-1 {
+            top: 18%;
+            left: 6%;
+            width: 90px;
+            height: 260px;
+            background: linear-gradient(to bottom, #ff4444, transparent);
+            clip-path: polygon(50% 0%, 68% 14%, 62% 100%, 38% 100%, 32% 14%);
+            animation: float 9s ease-in-out infinite;
+        }
+
+        .missile-deco-2 {
+            bottom: 12%;
+            right: 7%;
+            width: 70px;
+            height: 190px;
+            background: linear-gradient(to bottom, #ff4444, transparent);
+            clip-path: polygon(50% 0%, 68% 14%, 62% 100%, 38% 100%, 32% 14%);
+            animation: float 11s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-20px) rotate(4deg); }
+        }
+
+        .stats {
+            padding: 60px 5%;
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+            background: rgba(255, 42, 42, 0.03);
+        }
+
+        .stat-number {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+            text-shadow: 0 0 18px var(--accent-glow);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        section {
+            padding: 90px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.7rem, 4vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            color: #fff;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 480px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .missiles {
+            background: var(--bg);
+        }
+
+        .missiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .missile-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .missile-card:hover {
+            border-color: rgba(255, 42, 42, 0.55);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-glow);
+        }
+
+        .missile-visual {
+            height: 200px;
+            background: linear-gradient(165deg, #0c0c10 0%, #1a0808 60%, #0a0505 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .missile-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 18px,
+                rgba(255, 42, 42, 0.025) 18px,
+                rgba(255, 42, 42, 0.025) 19px
+            );
+        }
+
+        .missile-visual::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(10, 5, 5, 0.9), transparent);
+            pointer-events: none;
+        }
+
+        .missile-svg {
+            width: 90px;
+            height: 160px;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.25));
+            transition: transform 0.4s ease, filter 0.4s;
+        }
+
+        .missile-card:hover .missile-svg {
+            transform: translateY(-10px) scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(255, 42, 42, 0.45));
+        }
+
+        .missile-info {
+            padding: 1.4rem;
+        }
+
+        .missile-info h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 0.35rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .missile-info .type {
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .missile-info p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .missile-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+        }
+
+        .spec-row span:first-child {
+            color: var(--text-muted);
+        }
+
+        .spec-row span:last-child {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .status-live {
+            color: var(--green) !important;
+        }
+
+        .range-section {
+            background: var(--bg-elevated);
+        }
+
+        .map-container {
+            max-width: 860px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .map-visual {
+            height: 340px;
+            background: 
+                radial-gradient(circle at 50% 50%, #1a0808 0%, #050505 70%),
+                repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255, 42, 42, 0.04) 30px, rgba(255, 42, 42, 0.04) 31px),
+                repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255, 42, 42, 0.04) 30px, rgba(255, 42, 42, 0.04) 31px);
+            border-radius: 2px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .range-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px solid;
+            opacity: 0.55;
+            animation: pulse-ring 3.5s ease-in-out infinite;
+        }
+
+        .range-1 {
+            width: 120px;
+            height: 120px;
+            border-color: var(--green);
+            animation-delay: 0s;
+        }
+
+        .range-2 {
+            width: 210px;
+            height: 210px;
+            border-color: #ffaa00;
+            animation-delay: 0.4s;
+        }
+
+        .range-3 {
+            width: 300px;
+            height: 300px;
+            border-color: var(--accent);
+            animation-delay: 0.8s;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.45; }
+            50% { transform: scale(1.04); opacity: 0.75; }
+        }
+
+        .center-point {
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 18px var(--accent), 0 0 35px var(--accent-glow);
+            z-index: 5;
+            position: relative;
+        }
+
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .legend-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .legend-dot.short { border-color: var(--green); }
+        .legend-dot.medium { border-color: #ffaa00; }
+        .legend-dot.long { border-color: var(--accent); }
+
+        footer {
+            background: #010101;
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 5% 1.8rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 0.7rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            max-width: 420px;
+            margin: 0 auto 1.2rem;
+        }
+
+        .footer-bottom {
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border);
+            color: #444;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 900px) {
+            .missiles-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.6rem; }
+            .stat-number { font-size: 2.2rem; }
+            .map-visual { height: 260px; }
+            .range-3 { width: 220px; height: 220px; }
+            .range-2 { width: 160px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">⚔</div>
+            <span>بگاخیز</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#stats">آمار</a></li>
+            <li><a href="#missiles">سامانه‌ها</a></li>
+            <li><a href="#range">برد</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="missile-deco missile-deco-1"></div>
+        <div class="missile-deco missile-deco-2"></div>
+        <div class="hero-content">
+            <div class="hero-badge">سیستم بازدارندگی راهبردی</div>
+            <h1>قدرت <span>بگاخیز</span></h1>
+            <p>سه سامانه اصلی با توان عملیاتی بالا برای نمایش قدرت بازدارندگی</p>
+            <div class="hero-buttons">
+                <a href="#missiles" class="btn btn-primary">مشاهده سامانه‌ها</a>
+                <a href="#range" class="btn btn-secondary">نقشه برد</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats" id="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">۳</div>
+                <div class="stat-label">سامانه اصلی</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+۲۰۰۰</div>
+                <div class="stat-label">کیلومتر حداکثر برد</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">۲۴/۷</div>
+                <div class="stat-label">آمادگی عملیاتی</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="missiles" id="missiles">
+        <div class="section-header">
+            <div class="section-tag">خانواده بگاخیز</div>
+            <h2>سه سامانه اصلی</h2>
+            <p>بگاخیز ۱، ۲ و ۳ — قدرت متمرکز و آماده</p>
+        </div>
+        <div class="missiles-grid">
+
+            <!-- بگاخیز ۱ - بالستیک دوربرد -->
+            <div class="missile-card">
+                <div class="missile-visual">
+                    <svg class="missile-svg" viewBox="0 0 80 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Body -->
+                        <defs>
+                            <linearGradient id="body1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#d8d8e0"/>
+                                <stop offset="30%" stop-color="#9898a8"/>
+                                <stop offset="70%" stop-color="#585868"/>
+                                <stop offset="100%" stop-color="#2a2a35"/>
+                            </linearGradient>
+                            <linearGradient id="nose1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#f0f0f5"/>
+                                <stop offset="100%" stop-color="#a0a0b0"/>
+                            </linearGradient>
+                            <linearGradient id="fin1" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#707080"/>
+                                <stop offset="100%" stop-color="#404050"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Main body -->
+                        <path d="M32 28 L48 28 L50 130 L30 130 Z" fill="url(#body1)"/>
+                        <!-- Nose cone -->
+                        <path d="M40 4 L48 28 L32 28 Z" fill="url(#nose1)"/>
+                        <!-- Nose tip -->
+                        <path d="M40 4 L42 10 L38 10 Z" fill="#c0c0d0"/>
+                        <!-- Body rings -->
+                        <rect x="31" y="45" width="18" height="3" fill="#3a3a48" opacity="0.7"/>
+                        <rect x="31" y="70" width="18" height="2.5" fill="#3a3a48" opacity="0.6"/>
+                        <rect x="31" y="95" width="18" height="2.5" fill="#3a3a48" opacity="0.6"/>
+                        <!-- Fins -->
+                        <path d="M30 115 L18 145 L28 130 Z" fill="url(#fin1)"/>
+                        <path d="M50 115 L62 145 L52 130 Z" fill="url(#fin1)"/>
+                        <path d="M30 125 L25 148 L32 135 Z" fill="#505060"/>
+                        <path d="M50 125 L55 148 L48 135 Z" fill="#505060"/>
+                        <!-- Engine nozzle -->
+                        <rect x="33" y="130" width="14" height="12" rx="1" fill="#1a1a22"/>
+                        <rect x="35" y="140" width="10" height="6" rx="1" fill="#0a0a10"/>
+                        <!-- Highlight -->
+                        <path d="M34 30 L36 30 L37 125 L35 125 Z" fill="#ffffff" opacity="0.15"/>
+                    </svg>
+                </div>
+                <div class="missile-info">
+                    <h3>بگاخیز ۱</h3>
+                    <div class="type">هایپر داشاق</div>
+                    <p>شلیک چندید پیام فیک به سمت دشمن</p>
+                    <div class="missile-specs">
+                        <div class="spec-row"><span>برد تقریبی</span><span>بیش از ۲۰۰۰ کیلومتر</span></div>
+                        <div class="spec-row"><span>نوع پرتاب</span><span>زمینی / سیلو</span></div>
+                        <div class="spec-row"><span>وضعیت</span><span class="status-live">عملیاتی</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بگاخیز ۲ - کروز -->
+            <div class="missile-card">
+                <div class="missile-visual">
+                    <svg class="missile-svg" viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="body2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#c8c8d4"/>
+                                <stop offset="40%" stop-color="#808090"/>
+                                <stop offset="100%" stop-color="#383848"/>
+                            </linearGradient>
+                            <linearGradient id="wing2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#707080"/>
+                                <stop offset="100%" stop-color="#404050"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Main fuselage -->
+                        <path d="M42 18 L58 18 L60 105 L40 105 Z" fill="url(#body2)"/>
+                        <!-- Nose -->
+                        <path d="M50 4 L58 18 L42 18 Z" fill="#e0e0e8"/>
+                        <path d="M50 4 L52 9 L48 9 Z" fill="#b0b0c0"/>
+                        <!-- Air intake -->
+                        <path d="M40 55 L35 70 L40 75 Z" fill="#2a2a35"/>
+                        <path d="M60 55 L65 70 L60 75 Z" fill="#2a2a35"/>
+                        <!-- Wings -->
+                        <path d="M40 60 L12 78 L18 85 L40 72 Z" fill="url(#wing2)"/>
+                        <path d="M60 60 L88 78 L82 85 L60 72 Z" fill="url(#wing2)"/>
+                        <!-- Tail fins -->
+                        <path d="M42 95 L30 120 L40 110 Z" fill="#505060"/>
+                        <path d="M58 95 L70 120 L60 110 Z" fill="#505060"/>
+                        <path d="M48 100 L50 125 L52 100 Z" fill="#606070"/>
+                        <!-- Engine -->
+                        <rect x="43" y="105" width="14" height="10" rx="1" fill="#1a1a22"/>
+                        <rect x="45" y="113" width="10" height="5" fill="#0a0a12"/>
+                        <!-- Body details -->
+                        <rect x="43" y="35" width="14" height="2" fill="#404050" opacity="0.6"/>
+                        <rect x="43" y="48" width="14" height="2" fill="#404050" opacity="0.5"/>
+                        <!-- Highlight -->
+                        <path d="M44 20 L46 20 L47 100 L45 100 Z" fill="#fff" opacity="0.12"/>
+                    </svg>
+                </div>
+                <div class="missile-info">
+                    <h3>بگاخیز ۲</h3>
+                    <div class="type">کروز پیشرفته</div>
+                    <p> قابلیت ورود به تلگرام دشمن و فرستادن فیلم سوپر برای کانتکت های ان</p>
+                    <div class="missile-specs">
+                        <div class="spec-row"><span>برد تقریبی</span><span>تا ۱۵۰۰ کیلومتر</span></div>
+                        <div class="spec-row"><span>نوع پرتاب</span><span>خودرویی / ثابت</span></div>
+                        <div class="spec-row"><span>وضعیت</span><span class="status-live">عملیاتی</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- بگاخیز ۳ - هایپرسونیک -->
+            <div class="missile-card">
+                <div class="missile-visual">
+                    <svg class="missile-svg" viewBox="0 0 80 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="body3" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#e8d0d0"/>
+                                <stop offset="25%" stop-color="#c07070"/>
+                                <stop offset="60%" stop-color="#803030"/>
+                                <stop offset="100%" stop-color="#401818"/>
+                            </linearGradient>
+                            <linearGradient id="nose3" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#fff0f0"/>
+                                <stop offset="100%" stop-color="#d08080"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Sleek body -->
+                        <path d="M34 22 L46 22 L49 135 L31 135 Z" fill="url(#body3)"/>
+                        <!-- Sharp nose -->
+                        <path d="M40 2 L46 22 L34 22 Z" fill="url(#nose3)"/>
+                        <path d="M40 2 L41.5 8 L38.5 8 Z" fill="#f8e0e0"/>
+                        <!-- Control surfaces / strakes -->
+                        <path d="M34 50 L22 65 L28 70 L34 58 Z" fill="#602020"/>
+                        <path d="M46 50 L58 65 L52 70 L46 58 Z" fill="#602020"/>
+                        <!-- Mid fins -->
+                        <path d="M31 95 L18 125 L28 115 Z" fill="#501818"/>
+                        <path d="M49 95 L62 125 L52 115 Z" fill="#501818"/>
+                        <!-- Rear fins -->
+                        <path d="M32 120 L24 150 L33 138 Z" fill="#401010"/>
+                        <path d="M48 120 L56 150 L47 138 Z" fill="#401010"/>
+                        <!-- Body bands -->
+                        <rect x="32.5" y="40" width="15" height="2.5" fill="#301010" opacity="0.7"/>
+                        <rect x="32.5" y="75" width="15" height="2" fill="#301010" opacity="0.6"/>
+                        <rect x="32.5" y="110" width="15" height="2" fill="#301010" opacity="0.5"/>
+                        <!-- Nozzle -->
+                        <rect x="34" y="135" width="12" height="14" rx="1" fill="#1a0808"/>
+                        <rect x="36" y="147" width="8" height="6" rx="1" fill="#0a0404"/>
+                        <!-- Highlight -->
+                        <path d="M36 24 L38 24 L39 130 L37 130 Z" fill="#fff" opacity="0.18"/>
+                        <!-- Glow tip -->
+                        <circle cx="40" cy="6" r="2.5" fill="#ff6666" opacity="0.6"/>
+                    </svg>
+                </div>
+                <div class="missile-info">
+                    <h3>بگاخیز ۳</h3>
+                    <div class="type">هایپرسونیخ</div>
+                    <p>در دست ساخت</p>
+                    <div class="missile-specs">
+                        <div class="spec-row"><span>سرعت</span><span>بیش از ماخ ۵</span></div>
+                        <div class="spec-row"><span>نوع پرتاب</span><span>بالستیک / هواپایه</span></div>
+                        <div class="spec-row"><span>وضعیت</span><span class="status-live">عملیاتی</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="range-section" id="range">
+        <div class="section-header">
+            <div class="section-tag">پوشش عملیاتی</div>
+            <h2>نقشه برد بگاخیز</h2>
+            <p>محدوده پوشش سه سامانه اصلی</p>
+        </div>
+        <div class="map-container">
+            <div class="map-visual">
+                <div class="range-circle range-3"></div>
+                <div class="range-circle range-2"></div>
+                <div class="range-circle range-1"></div>
+                <div class="center-point"></div>
+            </div>
+            <div class="map-legend">
+                <div class="legend-item">
+                    <div class="legend-dot short"></div>
+                    <span>بگاخیز ۲ — تا ۱۵۰۰ کیلومتر</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot medium"></div>
+                    <span>بگاخیز ۳ — هایپرسونیک</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot long"></div>
+                    <span>بگاخیز ۱ — بیش از ۲۰۰۰ کیلومتر</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">الله اکبر</div>
+        <p class="footer-text">سپاه انصار و سایبری</p>
+    </footer>
+
+</body>
+</html>
